@@ -41,7 +41,7 @@ sub yesterday {
 
     $self = $self->get_object;
 
-    $self->localtime(($self - ONE_DAY)->reparse('%Y-%m-%d'));
+    $self->localtime(($self - ONE_DAY)->reparse('%Y%m%d'));
 }
 
 sub tomorrow {
@@ -49,10 +49,31 @@ sub tomorrow {
 
     $self = $self->get_object;
 
-    $self->localtime(($self + ONE_DAY)->reparse('%Y-%m-%d'));
+    $self->localtime(($self + ONE_DAY)->reparse('%Y%m%d'));
 }
 
+my %TRUNCATE_FORMAT = (
+    minute  => '%Y%m%d%H%I00',
+    hour    => '%Y%m%d%H0000',
+    day     => '%Y%m%d000000',
+    month   => '%Y%m01000000',
+    year    => '%Y0101000000',
+);
+
+use Mouse::Util::TypeConstraints;
+
+enum 'Time::Piece::Factory::ColumTypes' => keys %TRUNCATE_FORMAT;
+
+no Mouse::Util::TypeConstraints;
+
 sub truncate {
+    state $validator = Data::Validator->new(
+        to => {isa => 'Time::Piece::Factory::ColumTypes'},
+    )->with(qw(Method));
+    my ($self, $args) = $validator->validate(@_);
+    my $format = $TRUNCATE_FORMAT{$args->{to}};
+    $self = $self->get_object;
+    return $self->reparse($format);
 }
 
 1;
