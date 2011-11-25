@@ -2,17 +2,20 @@ package Time::Piece::Factory;
 use strict;
 use warnings;
 use 5.10.0;
+
 our $VERSION = '0.01';
 
-use Time::Piece;
+use Time::Piece ();
 
 sub import {
     my $class  = shift;
     my $caller = caller;
 
-    unshift @_, 'Time::Piece';
+    for my $function (qw(localtime gmtime))  {
+        no strict 'refs';
+        *{"$caller\::$function"} = \&{"Time::Piece::$function"};
+    }
 
-    goto &Time::Piece::import;
 }
 
 package  Time::Piece;
