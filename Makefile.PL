@@ -3,6 +3,7 @@ name 'Time-Piece-Factory';
 all_from 'lib/Time/Piece/Factory.pm';
 
 # requires '';
+requires 'Time::Piece' => 1.16;
 
 tests 't/*.t';
 author_tests 'xt';
