@@ -4,6 +4,7 @@ all_from 'lib/Time/Piece/Factory.pm';
 
 # requires '';
 requires 'Time::Piece' => 1.16;
+requires 'Data::Validator';
 
 tests 't/*.t';
 author_tests 'xt';
