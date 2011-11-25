@@ -85,6 +85,8 @@ sub truncate {
 1;
 __END__
 
+=encoding utf-8
+
 =head1 NAME
 
 Time::Piece::Factory - Factory module for Time::Piece
@@ -93,12 +95,44 @@ Time::Piece::Factory - Factory module for Time::Piece
 
   use Time::Piece::Factory;
 
+  #As class method
+  my $time = Time::Piece->yesterday;
+  my $tomorrow = Time::Piece->tomorrow;
+
+  #As instance method
   my $time = Time::Piece->yesterday;
   my $two_days_ago = $time->yesterday;
+  my $today = $time->tomorrow;
+
+  #returns hour truncated object
+  $time->truncate(to => 'day');
 
 =head1 DESCRIPTION
 
-Time::Piece::Factory is
+Time::Piece::Factory is Factory module for Time::Piece
+
+Add some useful methods to Time::Piece
+
+=head1 METHODS
+
+=head2 yesterday
+
+If called as a class method returns yesterday.
+Also, if called as an instance method returns the previous day.
+And time is cut.
+
+=head2 tomorrow
+
+If called as a class method returns tomorrow.
+Also, if called as an instance method returns the next day.
+And time is cut.
+
+=head2 truncate
+
+Cut the smaller units than those specified.
+For example, "day" if you will cut the time you specify.
+2011-11-26 02:13:22 -> 2011-11-26 00:00:00
+Each unit is a minimum cut.
 
 =head1 AUTHOR
 
