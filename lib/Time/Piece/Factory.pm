@@ -53,7 +53,7 @@ sub tomorrow {
 }
 
 my %TRUNCATE_FORMAT = (
-    minute  => '%Y%m%d%H%I00',
+    minute  => '%Y%m%d%H%M00',
     hour    => '%Y%m%d%H0000',
     day     => '%Y%m%d000000',
     month   => '%Y%m01000000',
