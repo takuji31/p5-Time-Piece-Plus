@@ -33,10 +33,13 @@ sub get_object {
 }
 
 sub reparse {
-    my ($self, $format_string, $parse_string) = @_;
+    state $validator = Data::Validator->new(
+        format_string => {isa => 'Str'},
+        parse_string  => {isa => 'Str', default => sub{$_[2]->{format_string}}},
+    )->with(qw(Method));
+    my ($self, $args) = $validator->validate(@_);
 
-    $parse_string ||= $format_string;
-    $self->strptime($self->strftime($format_string), $parse_string);
+    $self->strptime($self->strftime($args->{format_string}), $args->{parse_string});
 }
 
 sub yesterday {
@@ -44,7 +47,7 @@ sub yesterday {
 
     $self = $self->get_object;
 
-    $self->localtime(($self - ONE_DAY)->reparse('%Y%m%d'));
+    $self->localtime(($self - ONE_DAY)->reparse(format_string => '%Y%m%d'));
 }
 
 sub tomorrow {
@@ -52,7 +55,7 @@ sub tomorrow {
 
     $self = $self->get_object;
 
-    $self->localtime(($self + ONE_DAY)->reparse('%Y%m%d'));
+    $self->localtime(($self + ONE_DAY)->reparse(format_string => '%Y%m%d'));
 }
 
 my %TRUNCATE_FORMAT = (
@@ -76,7 +79,7 @@ sub truncate {
     my ($self, $args) = $validator->validate(@_);
     my $format = $TRUNCATE_FORMAT{$args->{to}};
     $self = $self->get_object;
-    return $self->reparse($format);
+    return $self->reparse(format_string => $format);
 }
 
 1;
