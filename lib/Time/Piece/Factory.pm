@@ -82,6 +82,36 @@ sub truncate {
     return $self->reparse(format_string => $format);
 }
 
+sub from_mysql_date {
+    state $validator = Data::Validator->new(
+        str => {isa => 'Str'},
+        as_localtime => {isa => 'Str', default => 1},
+    )->with(qw(Method));
+    my ($class, $args) = $validator->validate(@_);
+
+    return unless $args->{str};
+
+    my $self = $args->{as_localtime} ? Time::Piece::localtime() : Time::Piece::gmtime();
+    my $parsed = $self->strptime($args->{str}, '%Y-%m-%d');
+
+    return $parsed;
+}
+
+sub from_mysql_datetime {
+    state $validator = Data::Validator->new(
+        str => {isa => 'Str'},
+        as_localtime => {isa => 'Str', default => 1},
+    )->with(qw(Method));
+    my ($class, $args) = $validator->validate(@_);
+
+    return unless $args->{str};
+
+    my $self = $args->{as_localtime} ? Time::Piece::localtime() : Time::Piece::gmtime();
+    my $parsed = $self->strptime($args->{str}, '%Y-%m-%d %H:%M:%S');
+
+    return $parsed;
+}
+
 1;
 __END__
 
@@ -133,6 +163,14 @@ Cut the smaller units than those specified.
 For example, "day" if you will cut the time you specify.
 2011-11-26 02:13:22 -> 2011-11-26 00:00:00
 Each unit is a minimum cut.
+
+=head2 from_mysql_date
+
+Parse MySQL DATE string like "YYYY-mm-dd".
+
+=head2 from_mysql_datetime
+
+Parse MySQL DATETIME string like "YYYY-mm-dd HH:MM:SS".
 
 =head1 AUTHOR
 
