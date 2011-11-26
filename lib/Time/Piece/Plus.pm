@@ -97,6 +97,17 @@ sub parse_mysql_datetime {
     return $parsed;
 }
 
+sub mysql_date {
+    my ($self, ) = @_;
+    $self = $self->get_object;
+    return $self->strftime("%Y-%m-%d");
+}
+sub mysql_datetime {
+    my ($self, ) = @_;
+    $self = $self->get_object;
+    return $self->strftime("%Y-%m-%d %H:%M:%S");
+}
+
 1;
 __END__
 
@@ -169,6 +180,18 @@ as_localtime is optional, default is 1.
 
 Parse MySQL DATETIME string like "YYYY-mm-dd HH:MM:SS".
 as_localtime is optional, default is 1.
+
+=head2 mysql_date
+
+Format MySQL DATE string like "YYYY-mm-dd".
+If you call a class method and returns the format today.
+Also, if called as an instance method returns the date and format of the instance.
+
+=head2 mysql_datetime
+
+Format MySQL DATE string like "YYYY-mm-dd HH:MM:SS".
+If you call a class method and returns the format now.
+Also, if called as an instance method returns the date and format of the instance.
 
 =head1 AUTHOR
 

@@ -4,7 +4,7 @@ use Test::More;
 use Time::Piece::Plus;
 use Time::Seconds;
 
-subtest "from Class method" => sub {
+subtest "from class method" => sub {
     my $now = localtime();
     my $one_day_ago = $now - ONE_DAY;
     my $yesterday = Time::Piece::Plus->yesterday;
@@ -13,7 +13,7 @@ subtest "from Class method" => sub {
     done_testing;
 };
 
-subtest "from Class method" => sub {
+subtest "from instance method" => sub {
     my $sometime = "2011-11-25 15:00:02";
     my $time = localtime(Time::Piece::Plus->strptime($sometime, "%Y-%m-%d %H:%M:%S"));
     my $one_day_ago = $time - ONE_DAY;
