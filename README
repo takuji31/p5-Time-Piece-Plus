@@ -1,11 +1,11 @@
-This is Perl module Time::Piece::Factory.
+This is Perl module Time::Piece::Plus.
 
 INSTALLATION
 
-Time::Piece::Factory installation is straightforward. If your CPAN shell is set up,
+Time::Piece::Plus installation is straightforward. If your CPAN shell is set up,
 you should just be able to do
 
-    % cpan Time::Piece::Factory
+    % cpan Time::Piece::Plus
 
 Download it, unpack it, then build it as per the usual:
 
@@ -18,9 +18,9 @@ Then install it:
 
 DOCUMENTATION
 
-Time::Piece::Factory documentation is available as in POD. So you can do:
+Time::Piece::Plus documentation is available as in POD. So you can do:
 
-    % perldoc Time::Piece::Factory
+    % perldoc Time::Piece::Plus
 
 to read the documentation online with your favorite pager.
 

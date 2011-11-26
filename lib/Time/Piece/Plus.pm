@@ -1,4 +1,4 @@
-package Time::Piece::Factory;
+package Time::Piece::Plus;
 use strict;
 use warnings;
 use 5.10.0;
@@ -53,13 +53,13 @@ my %TRUNCATE_FORMAT = (
 
 use Mouse::Util::TypeConstraints;
 
-enum 'Time::Piece::Factory::ColumTypes' => keys %TRUNCATE_FORMAT;
+enum 'Time::Piece::Plus::ColumTypes' => keys %TRUNCATE_FORMAT;
 
 no Mouse::Util::TypeConstraints;
 
 sub truncate {
     state $validator = Data::Validator->new(
-        to => {isa => 'Time::Piece::Factory::ColumTypes'},
+        to => {isa => 'Time::Piece::Plus::ColumTypes'},
     )->with(qw(Method));
     my ($self, $args) = $validator->validate(@_);
     my $format = $TRUNCATE_FORMAT{$args->{to}};
@@ -104,18 +104,18 @@ __END__
 
 =head1 NAME
 
-Time::Piece::Factory - Factory module for Time::Piece
+Time::Piece::Plus - Factory module for Time::Piece
 
 =head1 SYNOPSIS
 
-  use Time::Piece::Factory;
+  use Time::Piece::Plus;
 
   #As class method
-  my $time = Time::Piece::Factory->yesterday;
-  my $tomorrow = Time::Piece::Factory->tomorrow;
+  my $time = Time::Piece::Plus->yesterday;
+  my $tomorrow = Time::Piece::Plus->tomorrow;
 
   #As instance method
-  my $time = Time::Piece::Factory->yesterday;
+  my $time = Time::Piece::Plus->yesterday;
   my $two_days_ago = $time->yesterday;
   my $today = $time->tomorrow;
 
@@ -123,21 +123,21 @@ Time::Piece::Factory - Factory module for Time::Piece
   $time->truncate(to => 'day');
 
   #parse MySQL DATE
-  my $gm_date    = Time::Piece::Factory->parse_mysql_date(str => "2011-11-26", as_localtime => 0);
-  my $local_date = Time::Piece::Factory->parse_mysql_date(str => "2011-11-26", as_localtime => 1);
+  my $gm_date    = Time::Piece::Plus->parse_mysql_date(str => "2011-11-26", as_localtime => 0);
+  my $local_date = Time::Piece::Plus->parse_mysql_date(str => "2011-11-26", as_localtime => 1);
   #default is localtime
-  my $local_date = Time::Piece::Factory->parse_mysql_date(str => "2011-11-26");
+  my $local_date = Time::Piece::Plus->parse_mysql_date(str => "2011-11-26");
 
   #parse MySQL DATETIME
-  my $gm_datetime    = Time::Piece::Factory->parse_mysql_datetime(str => "2011-11-26 23:28:50", as_localtime => 0);
-  my $local_datetime = Time::Piece::Factory->parse_mysql_datetime(str => "2011-11-26 23:28:50", as_localtime => 1);
+  my $gm_datetime    = Time::Piece::Plus->parse_mysql_datetime(str => "2011-11-26 23:28:50", as_localtime => 0);
+  my $local_datetime = Time::Piece::Plus->parse_mysql_datetime(str => "2011-11-26 23:28:50", as_localtime => 1);
   #default is localtime
-  my $datetime       = Time::Piece::Factory->parse_mysql_datetime(str => "2011-11-26 23:28:50");
+  my $datetime       = Time::Piece::Plus->parse_mysql_datetime(str => "2011-11-26 23:28:50");
 
 
 =head1 DESCRIPTION
 
-Time::Piece::Factory is Factory module for Time::Piece
+Time::Piece::Plus is Factory module for Time::Piece
 
 Add some useful methods to Time::Piece
 

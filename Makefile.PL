@@ -1,6 +1,6 @@
 use inc::Module::Install;
-name 'Time-Piece-Factory';
-all_from 'lib/Time/Piece/Factory.pm';
+name 'Time-Piece-Plus';
+all_from 'lib/Time/Piece/Plus.pm';
 
 # requires '';
 requires 'Time::Piece' => 1.16;

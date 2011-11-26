@@ -3,7 +3,7 @@ use Test::LoadAllModules;
 
 BEGIN {
     all_uses_ok(
-        search_path => "Time::Piece::Factory",
+        search_path => "Time::Piece::Plus",
         except => [],
     );
 }
