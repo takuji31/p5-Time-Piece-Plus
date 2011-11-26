@@ -3,24 +3,9 @@ use strict;
 use warnings;
 use 5.10.0;
 
+use parent 'Time::Piece';
+
 our $VERSION = '0.01';
-
-use Time::Piece ();
-
-sub import {
-    my $class  = shift;
-    my $caller = caller;
-
-    for my $function (qw(localtime gmtime))  {
-        no strict 'refs';
-        *{"$caller\::$function"} = \&{"Time::Piece::$function"};
-    }
-
-}
-
-package  Time::Piece;
-use strict;
-use warnings;
 
 use Time::Seconds;
 use Data::Validator;
@@ -89,9 +74,9 @@ sub parse_mysql_date {
     )->with(qw(Method));
     my ($class, $args) = $validator->validate(@_);
 
-    return unless $args->{str};
+    return unless $args->{str} && $args->{str} ne "0000-00-00";
 
-    my $self = $args->{as_localtime} ? Time::Piece::localtime() : Time::Piece::gmtime();
+    my $self = $args->{as_localtime} ? $class->localtime() : $class->gmtime();
     my $parsed = $self->strptime($args->{str}, '%Y-%m-%d');
 
     return $parsed;
@@ -104,9 +89,9 @@ sub parse_mysql_datetime {
     )->with(qw(Method));
     my ($class, $args) = $validator->validate(@_);
 
-    return unless $args->{str};
+    return unless $args->{str} && $args->{str} ne "0000-00-00 00:00:00";
 
-    my $self = $args->{as_localtime} ? Time::Piece::localtime() : Time::Piece::gmtime();
+    my $self = $args->{as_localtime} ? $class->localtime() : $class->gmtime();
     my $parsed = $self->strptime($args->{str}, '%Y-%m-%d %H:%M:%S');
 
     return $parsed;
@@ -126,11 +111,11 @@ Time::Piece::Factory - Factory module for Time::Piece
   use Time::Piece::Factory;
 
   #As class method
-  my $time = Time::Piece->yesterday;
-  my $tomorrow = Time::Piece->tomorrow;
+  my $time = Time::Piece::Factory->yesterday;
+  my $tomorrow = Time::Piece::Factory->tomorrow;
 
   #As instance method
-  my $time = Time::Piece->yesterday;
+  my $time = Time::Piece::Factory->yesterday;
   my $two_days_ago = $time->yesterday;
   my $today = $time->tomorrow;
 
@@ -138,12 +123,16 @@ Time::Piece::Factory - Factory module for Time::Piece
   $time->truncate(to => 'day');
 
   #parse MySQL DATE
-  my $gm_date    = Time::Piece->parse_mysql_date(str => "2011-11-26", as_localtime => 0);
-  my $local_date = Time::Piece->parse_mysql_date(str => "2011-11-26", as_localtime => 0);
+  my $gm_date    = Time::Piece::Factory->parse_mysql_date(str => "2011-11-26", as_localtime => 0);
+  my $local_date = Time::Piece::Factory->parse_mysql_date(str => "2011-11-26", as_localtime => 1);
+  #default is localtime
+  my $local_date = Time::Piece::Factory->parse_mysql_date(str => "2011-11-26");
 
   #parse MySQL DATETIME
-  my $gm_datetime    = Time::Piece->parse_mysql_datetime(str => "2011-11-26 23:28:50", as_localtime => 0);
-  my $local_datetime = Time::Piece->parse_mysql_datetime(str => "2011-11-26 23:28:50", as_localtime => 1);
+  my $gm_datetime    = Time::Piece::Factory->parse_mysql_datetime(str => "2011-11-26 23:28:50", as_localtime => 0);
+  my $local_datetime = Time::Piece::Factory->parse_mysql_datetime(str => "2011-11-26 23:28:50", as_localtime => 1);
+  #default is localtime
+  my $datetime       = Time::Piece::Factory->parse_mysql_datetime(str => "2011-11-26 23:28:50");
 
 
 =head1 DESCRIPTION
@@ -176,10 +165,12 @@ Each unit is a minimum cut.
 =head2 parse_mysql_date
 
 Parse MySQL DATE string like "YYYY-mm-dd".
+as_localtime is optional, default is 1.
 
 =head2 parse_mysql_datetime
 
 Parse MySQL DATETIME string like "YYYY-mm-dd HH:MM:SS".
+as_localtime is optional, default is 1.
 
 =head1 AUTHOR
 

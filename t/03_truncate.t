@@ -5,7 +5,7 @@ use Time::Piece::Factory;
 
 my $sometime = "2011-11-26 01:15:20";
 my $datetime_format = "%Y-%m-%d %H:%M:%S";
-my $time = Time::Piece->strptime($sometime, $datetime_format);
+my $time = Time::Piece::Factory->strptime($sometime, $datetime_format);
 
 subtest "truncate to minute" => sub {
     my $truncated = $time->truncate(to => 'minute');
