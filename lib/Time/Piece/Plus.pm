@@ -104,7 +104,7 @@ __END__
 
 =head1 NAME
 
-Time::Piece::Plus - Factory module for Time::Piece
+Time::Piece::Plus - Subclass of Time::Piece with some useful method
 
 =head1 SYNOPSIS
 
@@ -137,9 +137,7 @@ Time::Piece::Plus - Factory module for Time::Piece
 
 =head1 DESCRIPTION
 
-Time::Piece::Plus is Factory module for Time::Piece
-
-Add some useful methods to Time::Piece
+Time::Piece::Plus is subclass of Time::Piece with some useful method.
 
 =head1 METHODS
 
