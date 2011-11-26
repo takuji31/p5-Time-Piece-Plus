@@ -82,7 +82,7 @@ sub truncate {
     return $self->reparse(format_string => $format);
 }
 
-sub from_mysql_date {
+sub parse_mysql_date {
     state $validator = Data::Validator->new(
         str => {isa => 'Str'},
         as_localtime => {isa => 'Str', default => 1},
@@ -97,7 +97,7 @@ sub from_mysql_date {
     return $parsed;
 }
 
-sub from_mysql_datetime {
+sub parse_mysql_datetime {
     state $validator = Data::Validator->new(
         str => {isa => 'Str'},
         as_localtime => {isa => 'Str', default => 1},
@@ -137,6 +137,15 @@ Time::Piece::Factory - Factory module for Time::Piece
   #returns hour truncated object
   $time->truncate(to => 'day');
 
+  #parse MySQL DATE
+  my $gm_date    = Time::Piece->parse_mysql_date(str => "2011-11-26", as_localtime => 0);
+  my $local_date = Time::Piece->parse_mysql_date(str => "2011-11-26", as_localtime => 0);
+
+  #parse MySQL DATETIME
+  my $gm_datetime    = Time::Piece->parse_mysql_datetime(str => "2011-11-26 23:28:50", as_localtime => 0);
+  my $local_datetime = Time::Piece->parse_mysql_datetime(str => "2011-11-26 23:28:50", as_localtime => 1);
+
+
 =head1 DESCRIPTION
 
 Time::Piece::Factory is Factory module for Time::Piece
@@ -164,11 +173,11 @@ For example, "day" if you will cut the time you specify.
 2011-11-26 02:13:22 -> 2011-11-26 00:00:00
 Each unit is a minimum cut.
 
-=head2 from_mysql_date
+=head2 parse_mysql_date
 
 Parse MySQL DATE string like "YYYY-mm-dd".
 
-=head2 from_mysql_datetime
+=head2 parse_mysql_datetime
 
 Parse MySQL DATETIME string like "YYYY-mm-dd HH:MM:SS".
 
