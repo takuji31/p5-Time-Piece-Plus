@@ -32,7 +32,7 @@ sub yesterday {
 
     $self = $self->get_object;
 
-    $self->localtime(($self - ONE_DAY)->reparse(format_string => '%Y%m%d'));
+    ($self - ONE_DAY)->reparse(format_string => '%Y%m%d');
 }
 
 sub tomorrow {
@@ -40,7 +40,7 @@ sub tomorrow {
 
     $self = $self->get_object;
 
-    $self->localtime(($self + ONE_DAY)->reparse(format_string => '%Y%m%d'));
+    ($self + ONE_DAY)->reparse(format_string => '%Y%m%d');
 }
 
 my %TRUNCATE_FORMAT = (
