@@ -178,6 +178,8 @@ Nishibayashi Takuji E<lt>takuji {at} senchan.jpE<gt>
 
 =head1 SEE ALSO
 
+L<Time::Piece>,L<Time::Piece::MySQL>
+
 =head1 LICENSE
 
 This library is free software; you can redistribute it and/or modify
