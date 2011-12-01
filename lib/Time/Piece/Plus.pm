@@ -7,41 +7,8 @@ use parent 'Time::Piece';
 
 our $VERSION = '0.01';
 
-BEGIN {
-    require Time::Piece;
-    # Object creation bug fix patch for Time::Piece < 1.16
-    my $NEED_PATCH = $Time::Piece::VERSION < 1.16 ? 1 : 0;
-    sub need_patch {$NEED_PATCH} ## no critic
-}
-
 use Time::Seconds;
 use Data::Validator;
-
-sub localtime {
-    my $self = shift;
-    return $self->create_object('localtime',@_);
-}
-
-sub gmtime {
-    my $self = shift;
-    return $self->create_object('gmtime',@_);
-}
-
-sub create_object {
-    my $self = shift;
-    my $method = shift;
-
-    my $code = Time::Piece->can($method);
-
-    return $code->(@_) if wantarray;
-
-    my $origin = $code->(@_);
-    my @time = @$origin;
-    if(need_patch()) {
-        @time = @time[0..9];
-    }
-    bless \@time, ref $self || $self;
-}
 
 sub get_object {
     my ($self, ) = @_;

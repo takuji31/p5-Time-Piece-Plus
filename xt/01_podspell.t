@@ -8,6 +8,3 @@ __DATA__
 Nishibayashi Takuji
 takuji {at} senchan.jp
 Time::Piece::Plus
-DATETIME
-YYYY
-dd
