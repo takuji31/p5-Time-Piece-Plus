@@ -139,7 +139,7 @@ sub parse_mysql_date {
     )->with(qw(Method));
     my ($class, $args) = $validator->validate(@_);
 
-    return unless $args->{str} && $args->{str} ne "0000-00-00";
+    return if $args->{str} eq "0000-00-00";
 
     my $self = $args->{as_localtime} ? $class->localtime() : $class->gmtime();
     my $parsed = $self->strptime($args->{str}, '%Y-%m-%d');
@@ -154,7 +154,7 @@ sub parse_mysql_datetime {
     )->with(qw(Method));
     my ($class, $args) = $validator->validate(@_);
 
-    return unless $args->{str} && $args->{str} ne "0000-00-00 00:00:00";
+    return if $args->{str} eq "0000-00-00 00:00:00";
 
     my $self = $args->{as_localtime} ? $class->localtime() : $class->gmtime();
     my $parsed = $self->strptime($args->{str}, '%Y-%m-%d %H:%M:%S');
