@@ -31,22 +31,21 @@ use Data::Validator;
 
 sub localtime {
     my $self = shift;
-    return $self->create_object('localtime',@_);
+    return $self->create_object(1, @_);
 }
 
 sub gmtime {
     my $self = shift;
-    return $self->create_object('gmtime',@_);
+    return $self->create_object(0, @_);
 }
 
 sub create_object {
     my $self = shift;
-    my $method = shift;
+    my $is_local = shift;
 
-    my $code = Time::Piece->can($method);
-
-    my @origin = $code->(@_);
-    return @origin[0..8] if wantarray;
+    my @origin = $is_local ? Time::Piece::localtime(@_) : Time::Piece::gmtime(@_);
+    #If array context, returns time array.
+    return @origin if wantarray;
 
     my $is_instance = ref $self ? 1 : 0;
     my $class       = $is_instance ? ref $self : $self;
