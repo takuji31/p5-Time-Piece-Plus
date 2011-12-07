@@ -77,13 +77,18 @@ sub get_epoch {
     my $invocant = shift;
 
     return ref $invocant ? $invocant->epoch : time();
- }
+}
 
 sub get_is_local {
     my $invocant = shift;
 
     return ref $invocant ? $invocant->[10] : 1;
- }
+}
+
+sub get_time_diff {
+    my $self = shift;
+    return $self->sec + $self->min * 60 + $self->hour * 3600;
+}
 
 sub get_method_name {
     my $invocant = shift;
@@ -94,19 +99,21 @@ sub get_method_name {
 sub yesterday {
     my $invocant = shift;
 
-    my $epoch = $invocant->get_epoch;
-    my $method = $invocant->get_method_name;
+    my $self   = $invocant->get_object;
+    my $epoch  = $self->get_epoch;
+    my $method = $self->get_method_name;
 
-    $invocant->$method($epoch - ONE_DAY)->truncate(to => 'day');
+    $self->$method($epoch - ONE_DAY - $self->get_time_diff);
 }
 
 sub tomorrow {
     my $invocant = shift;
 
-    my $epoch = $invocant->get_epoch;
-    my $method = $invocant->get_method_name;
+    my $self   = $invocant->get_object;
+    my $epoch  = $self->get_epoch;
+    my $method = $self->get_method_name;
 
-    $invocant->$method($epoch + ONE_DAY)->truncate(to => 'day');
+    $invocant->$method($epoch + ONE_DAY - $self->get_time_diff);
 }
 
 my %TRUNCATE_FORMAT = (
