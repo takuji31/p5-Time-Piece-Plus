@@ -72,20 +72,40 @@ sub reparse {
     $self->strptime($self->strftime($args->{format_string}), $args->{parse_string});
 }
 
+sub get_epoch {
+    my $invocant = shift;
+
+    return ref $invocant ? $invocant->epoch : time();
+ }
+
+sub get_is_local {
+    my $invocant = shift;
+
+    return ref $invocant ? $invocant->[10] : 1;
+ }
+
+sub get_method_name {
+    my $invocant = shift;
+
+    return $invocant->get_is_local ? 'localtime' : 'gmtime';
+ }
+
 sub yesterday {
-    my ($self, ) = @_;
+    my $invocant = shift;
 
-    $self = $self->get_object;
+    my $epoch = $invocant->get_epoch;
+    my $method = $invocant->get_method_name;
 
-    ($self - ONE_DAY)->truncate(to => 'day');
+    $invocant->$method($epoch - ONE_DAY)->truncate(to => 'day');
 }
 
 sub tomorrow {
-    my ($self, ) = @_;
+    my $invocant = shift;
 
-    $self = $self->get_object;
+    my $epoch = $invocant->get_epoch;
+    my $method = $invocant->get_method_name;
 
-    ($self + ONE_DAY)->truncate(to => 'day');
+    $invocant->$method($epoch + ONE_DAY)->truncate(to => 'day');
 }
 
 my %TRUNCATE_FORMAT = (
