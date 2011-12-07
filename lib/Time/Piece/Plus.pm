@@ -56,10 +56,10 @@ sub create_object {
 }
 
 sub get_object {
-    my ($self, ) = @_;
+    my $invocant = shift;
 
-    $self = $self->localtime unless ref $self;
-    return $self;
+    my $object = ref $invocant ? $invocant : $invocant->localtime;
+    return $object;
 }
 
 sub reparse {
