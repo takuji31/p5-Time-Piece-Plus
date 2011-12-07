@@ -73,12 +73,6 @@ sub reparse {
     $self->strptime($self->strftime($args->{format_string}), $args->{parse_string});
 }
 
-sub get_epoch {
-    my $invocant = shift;
-
-    return ref $invocant ? $invocant->epoch : time();
-}
-
 sub get_is_local {
     my $invocant = shift;
 
@@ -100,7 +94,7 @@ sub yesterday {
     my $invocant = shift;
 
     my $self   = $invocant->get_object;
-    my $epoch  = $self->get_epoch;
+    my $epoch  = $self->epoch;
     my $method = $self->get_method_name;
 
     $self->$method($epoch - ONE_DAY - $self->get_time_diff);
@@ -110,7 +104,7 @@ sub tomorrow {
     my $invocant = shift;
 
     my $self   = $invocant->get_object;
-    my $epoch  = $self->get_epoch;
+    my $epoch  = $self->epoch;
     my $method = $self->get_method_name;
 
     $invocant->$method($epoch + ONE_DAY - $self->get_time_diff);
@@ -120,7 +114,7 @@ sub today {
     my $invocant = shift;
 
     my $self   = $invocant->get_object;
-    my $epoch  = $self->get_epoch;
+    my $epoch  = $self->epoch;
     my $method = $self->get_method_name;
 
     $invocant->$method($epoch - $self->get_time_diff);
