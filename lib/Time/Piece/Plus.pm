@@ -3,15 +3,14 @@ use strict;
 use warnings;
 use 5.10.0;
 
-use parent 'Time::Piece';
-
 our $VERSION = '0.01';
 
 BEGIN {
     require Time::Piece;
+    unshift @Time::Piece::Plus::ISA, 'Time::Piece';
     # Object creation bug fix patch for Time::Piece < 1.16
     my $NEED_PATCH = $Time::Piece::VERSION < 1.16 ? 1 : 0;
-    sub need_patch {$NEED_PATCH} ## no critic
+    sub need_patch() {$NEED_PATCH} ## no critic
 }
 
 use Time::Seconds;
