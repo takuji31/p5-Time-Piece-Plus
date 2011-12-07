@@ -3,7 +3,7 @@ name 'Time-Piece-Plus';
 all_from 'lib/Time/Piece/Plus.pm';
 
 # requires '';
-requires 'Time::Piece' => 1.16;
+requires 'Time::Piece' => 1.12;
 requires 'Data::Validator';
 
 tests 't/*.t';

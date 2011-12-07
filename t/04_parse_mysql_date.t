@@ -10,6 +10,22 @@ my $datetime_format = "%Y-%m-%d";
 my $time = Time::Piece::Plus->strptime($sometime, $datetime_format);
 my $localtime = localtime->strptime($sometime, $datetime_format);
 
+subtest "now as localtime" => sub {
+    my $now = localtime();
+    my $parsed = Time::Piece::Plus->parse_mysql_date(str => $now->mysql_date, as_localtime => 1);
+    isa_ok($parsed => 'Time::Piece::Plus', "returns Time::Piece::Plus instance");
+    is($parsed->strftime($datetime_format) => $now->strftime($datetime_format), "correct parsed date");
+    done_testing;
+};
+
+subtest "now as gmtime" => sub {
+    my $now = gmtime();
+    my $parsed = Time::Piece::Plus->parse_mysql_date(str => $now->mysql_date, as_localtime => 0);
+    isa_ok($parsed => 'Time::Piece::Plus', "returns Time::Piece::Plus instance");
+    is($parsed->strftime($datetime_format) => $now->strftime($datetime_format), "correct parsed date");
+    done_testing;
+};
+
 subtest "as gmtime" => sub {
     my $parsed = Time::Piece::Plus->parse_mysql_date(str => $sometime, as_localtime => 0);
     isa_ok($parsed => 'Time::Piece::Plus', "returns Time::Piece::Plus instance");

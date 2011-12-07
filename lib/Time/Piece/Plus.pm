@@ -33,14 +33,19 @@ sub create_object {
 
     my $code = Time::Piece->can($method);
 
-    return $code->(@_) if wantarray;
+    return $code->(@_) if wantarray && !need_patch();
 
-    my $origin = $code->(@_);
-    my @time = @$origin;
-    if(need_patch()) {
-        @time = @time[0..9];
+    my $is_instance = ref $self ? 1 : 0;
+    my $class       = $is_instance ? ref $self : $self;
+
+    my @origin = $code->(@_);
+    return @origin[0..8] if wantarray;
+
+    my @time = @origin;
+    if(need_patch() && (@origin > 11)) {
+        @time = (@time[0..9], $time[-1]);
     }
-    bless \@time, ref $self || $self;
+    bless \@time, $class;
 }
 
 sub get_object {
