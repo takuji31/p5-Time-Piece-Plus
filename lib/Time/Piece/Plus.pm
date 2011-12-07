@@ -14,6 +14,18 @@ BEGIN {
     sub need_patch() {$NEED_PATCH} ## no critic
 }
 
+sub import {
+    my $class  = shift;
+    my $caller = caller;
+    for my $method (qw(localtime gmtime)) {
+        my $code = sub {$class->$method(@_)};
+        {
+            no strict 'refs';
+            *{"$caller\::$method"} = $code; ## no critic
+        }
+    }
+}
+
 use Time::Seconds;
 use Data::Validator;
 
