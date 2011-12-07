@@ -134,7 +134,7 @@ sub truncate {
 
 sub parse_mysql_date {
     state $validator = Data::Validator->new(
-        str => {isa => 'Str'},
+        str          => {isa => 'Str'},
         as_localtime => {isa => 'Bool', default => 1},
     )->with(qw(Method));
     my ($class, $args) = $validator->validate(@_);
