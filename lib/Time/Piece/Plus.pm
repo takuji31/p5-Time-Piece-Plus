@@ -49,6 +49,7 @@ sub create_object {
 
     my $is_instance = ref $self ? 1 : 0;
     my $class       = $is_instance ? ref $self : $self;
+    #If instance is broken force fix
     if(need_patch() && (@origin > 11)) {
         @origin = (@origin[0..9], $origin[-1]);
     }
