@@ -116,6 +116,16 @@ sub tomorrow {
     $invocant->$method($epoch + ONE_DAY - $self->get_time_diff);
 }
 
+sub today {
+    my $invocant = shift;
+
+    my $self   = $invocant->get_object;
+    my $epoch  = $self->get_epoch;
+    my $method = $self->get_method_name;
+
+    $invocant->$method($epoch - $self->get_time_diff);
+}
+
 my %TRUNCATE_FORMAT = (
     minute  => '%Y%m%d%H%M00',
     hour    => '%Y%m%d%H0000',
