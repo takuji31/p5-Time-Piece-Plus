@@ -11,7 +11,6 @@ subtest "fix localtime or gmtime" => sub {
     my $localtime_from_local = localtime(scalar localtime());
     is($now => $localtime_from_gm, 'Convert gmtime to localtime successful');
     is($now => $localtime_from_local, 'Convert localtime to localtime successful');
-    done_testing;
 };
 
 subtest "fix strptime from instance method" => sub {
@@ -22,7 +21,6 @@ subtest "fix strptime from instance method" => sub {
     is($now => $parsed , 'Parse successful');
     is($now->epoch => $parsed->epoch , 'epoch equals');
     is($now->strftime($format) => $parsed->strftime($format) , 'Same date and time');
-    done_testing;
 };
 
 subtest "fix strptime from class method" => sub {
@@ -33,7 +31,6 @@ subtest "fix strptime from class method" => sub {
     is($now => $parsed , 'Parse successful');
     is($now->epoch => $parsed->epoch , 'epoch equals');
     is($now->strftime($format) => $parsed->strftime($format) , 'Same date and time');
-    done_testing;
 };
 
 done_testing();

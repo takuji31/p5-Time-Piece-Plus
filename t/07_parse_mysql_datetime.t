@@ -16,7 +16,6 @@ subtest "now as gmtime" => sub {
     isa_ok($parsed => 'Time::Piece::Plus', "returns Time::Piece::Plus instance");
     is($parsed->epoch => $now->epoch, "parsed correctly");
     is($parsed->strftime($datetime_format) => $now->strftime($datetime_format), "correct parsed datetime");
-    done_testing;
 };
 
 subtest "now as localtime" => sub {
@@ -25,7 +24,6 @@ subtest "now as localtime" => sub {
     isa_ok($parsed => 'Time::Piece::Plus', "returns Time::Piece::Plus instance");
     is($parsed->epoch => $now->epoch, "parsed correctly");
     is($parsed->strftime($datetime_format) => $now->strftime($datetime_format), "correct parsed datetime");
-    done_testing;
 };
 
 subtest "as gmtime" => sub {
@@ -33,7 +31,6 @@ subtest "as gmtime" => sub {
     isa_ok($parsed => 'Time::Piece::Plus', "returns Time::Piece::Plus instance");
     is($parsed->epoch => $time->epoch, "parsed correctly");
     is($parsed->strftime($datetime_format) => $sometime, "correct parsed datetime");
-    done_testing;
 };
 
 subtest "as localtime" => sub {
@@ -41,7 +38,6 @@ subtest "as localtime" => sub {
     isa_ok($parsed => 'Time::Piece::Plus', "returns Time::Piece::Plus instance");
     is($parsed->epoch => $localtime->epoch, "parsed correctly");
     is($parsed->strftime($datetime_format) => $sometime, "correct parsed datetime");
-    done_testing;
 };
 
 subtest "epoch minus datetime" => sub {
@@ -49,7 +45,6 @@ subtest "epoch minus datetime" => sub {
     my $parsed = Time::Piece::Plus->parse_mysql_datetime(str => $somoday, as_localtime => 0);
     isa_ok($parsed => 'Time::Piece::Plus', "parsed correctly");
     ok(($parsed->epoch == -1), "correct parsed datetime");
-    done_testing;
 };
 
 done_testing();

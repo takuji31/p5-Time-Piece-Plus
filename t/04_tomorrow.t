@@ -10,7 +10,6 @@ subtest "from class method" => sub {
     my $tomorrow = Time::Piece::Plus->tomorrow;
     is($tomorrow->strftime("%Y%m%d") => $one_day_ago->strftime("%Y%m%d"), "tomorrow method returns tomorrow");
     is($tomorrow->strftime("%H%M%S") => "000000", "tomorrow method truncate times");
-    done_testing;
 };
 
 subtest "from instance method" => sub {
@@ -20,7 +19,6 @@ subtest "from instance method" => sub {
     my $tomorrow = $time->tomorrow;
     is($tomorrow->strftime("%Y%m%d") => $one_day_ago->strftime("%Y%m%d"), "tomorrow method returns tomorrow");
     is($tomorrow->strftime("%H%M%S") => "000000", "tomorrow method truncate times");
-    done_testing;
 };
 
 
