@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use 5.010;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 BEGIN {
     require Time::Piece;
@@ -198,9 +198,13 @@ Time::Piece::Plus - Subclass of Time::Piece with some useful method
 
   use Time::Piece::Plus;
 
+  my $now = localtime();
+  my $today = Time::Piece::Plus->today;
+
   #As class method
-  my $time = Time::Piece::Plus->yesterday;
-  my $tomorrow = Time::Piece::Plus->tomorrow;
+  my $today     = Time::Piece::Plus->today;
+  my $yesterday = Time::Piece::Plus->yesterday;
+  my $tomorrow  = Time::Piece::Plus->tomorrow;
 
   #As instance method
   my $time = Time::Piece::Plus->yesterday;
@@ -228,6 +232,12 @@ Time::Piece::Plus - Subclass of Time::Piece with some useful method
 Time::Piece::Plus is subclass of Time::Piece with some useful method.
 
 =head1 METHODS
+
+=head2 today
+
+If called as a class method returns today.
+Also, if called as an instance method returns the day.
+And time is cut.
 
 =head2 yesterday
 

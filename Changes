@@ -1,4 +1,9 @@
 Revision history for Perl extension Time::Piece::Plus
 
+0.02    Fri Dec 10 01:17:50 2011
+        - Add today method
+        - yesterday and tommorow method more faster
+        - Add instance creation bug fix patch for before than Time::Piece 0.16
+
 0.01    Sun Nov 27 01:24:38 2011
         - original version
