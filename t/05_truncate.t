@@ -11,7 +11,6 @@ subtest "truncate to minute" => sub {
     my $truncated = $time->truncate(to => 'minute');
     is($truncated->second => 0, "seconds are truncated");
     is($truncated->strftime($datetime_format) => "2011-11-26 01:15:00", "correct truncated date");
-    done_testing;
 };
 
 subtest "truncate to hour" => sub {
@@ -19,7 +18,6 @@ subtest "truncate to hour" => sub {
     is($truncated->second => 0, "seconds are truncated");
     is($truncated->minute => 0, "minutes are truncated");
     is($truncated->strftime($datetime_format) => "2011-11-26 01:00:00", "correct truncated date");
-    done_testing;
 };
 
 subtest "truncate to day" => sub {
@@ -28,7 +26,6 @@ subtest "truncate to day" => sub {
     is($truncated->minute => 0, "minutes are truncated");
     is($truncated->hour   => 0, "hours are truncated");
     is($truncated->strftime($datetime_format) => "2011-11-26 00:00:00", "correct truncated date");
-    done_testing;
 };
 
 subtest "truncate to month" => sub {
@@ -38,7 +35,6 @@ subtest "truncate to month" => sub {
     is($truncated->hour   => 0, "hours are truncated");
     is($truncated->mday   => 1, "days are truncated");
     is($truncated->strftime($datetime_format) => "2011-11-01 00:00:00", "correct truncated date");
-    done_testing;
 };
 
 subtest "truncate to year" => sub {
@@ -49,7 +45,6 @@ subtest "truncate to year" => sub {
     is($truncated->mday   => 1, "days are truncated");
     is($truncated->mon    => 1, "months are truncated");
     is($truncated->strftime($datetime_format) => "2011-01-01 00:00:00", "correct truncated date");
-    done_testing;
 };
 
 done_testing();
