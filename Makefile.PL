@@ -11,7 +11,7 @@ requires 'version';
 tests 't/*.t';
 author_tests 'xt';
 
-build_requires 'Test::More' => 0.98;
+build_requires 'Test::More' => 0.96;
 build_requires 'Test::LoadAllModules';
 use_test_base;
 auto_include;
