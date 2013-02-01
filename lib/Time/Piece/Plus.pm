@@ -185,6 +185,57 @@ sub mysql_datetime {
     return $self->strftime("%Y-%m-%d %H:%M:%S");
 }
 
+sub add {
+    my ($self, @args) = @_;
+    return $self->SUPER::add(@args) if @args <= 1;
+
+    my %args = @args;
+    my $seconds = $self->_calc_seconds(%args);
+    $self = $self->SUPER::add($seconds);
+
+    $self = $self->add_months($args{months}) if $args{months};
+    $self = $self->add_years($args{years})   if $args{years};
+
+    $self;
+}
+
+sub subtract {
+    my ($self, @args) = @_;
+    return $self->SUPER::subtract(@args) if @args <= 1;
+
+    my %args = @args;
+    my $seconds = $self->_calc_seconds(%args);
+    $self = $self->SUPER::subtract($seconds);
+
+    $self = $self->add_months(-1 * $args{months}) if $args{months};
+    $self = $self->add_years(-1 * $args{years})   if $args{years};
+
+    $self;
+}
+
+sub _calc_seconds {
+    my $self = shift;
+
+    state $validator = Data::Validator->new(
+        seconds => {isa => 'Int', optional => 1},
+        minutes => {isa => 'Int', optional => 1},
+        hours   => {isa => 'Int', optional => 1},
+        days    => {isa => 'Int', optional => 1},
+        months  => {isa => 'Int', optional => 1},
+        years   => {isa => 'Int', optional => 1},
+    );
+    my $args = $validator->validate(@_);
+
+    my $seconds = 0;
+    $seconds += $args->{seconds}              if exists $args->{seconds};
+    $seconds += ONE_MINUTE * $args->{minutes} if exists $args->{minutes};
+    $seconds += ONE_HOUR   * $args->{hours}   if exists $args->{hours};
+    $seconds += ONE_DAY    * $args->{days}    if exists $args->{days};
+
+    $seconds;
+}
+
+
 1;
 __END__
 
