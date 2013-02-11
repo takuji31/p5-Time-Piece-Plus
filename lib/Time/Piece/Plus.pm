@@ -277,6 +277,18 @@ Time::Piece::Plus - Subclass of Time::Piece with some useful method
   #default is localtime
   my $datetime       = Time::Piece::Plus->parse_mysql_datetime(str => "2011-11-26 23:28:50");
 
+  #calculete
+  my $date = localtime();
+  $date = $date->add(10);
+  $date = $date->add(Time::Seconds->new(10);
+  $date = $date->add(days => 1, hours => 12);
+  $date = $date + 3600;
+
+  $date = $date->subtract(10);
+  $date = $date->subtract(Time::Seconds->new(10);
+  $date = $date->subtrace(days => 1, hours => 12);
+  $date = $date - 3600;
+  $time_seconds = $date - Time::Piece::Plus->today;
 
 =head1 DESCRIPTION
 
@@ -331,13 +343,39 @@ Format MySQL DATE string like "YYYY-mm-dd HH:MM:SS".
 If you call a class method and returns the format now.
 Also, if called as an instance method returns the date and format of the instance.
 
+=head2 add(Int|Time::Seconds|Hash)
+
+=head2 subtract(Int|Time::Seconds|Time::Piece|Hash)
+
+Calculate and return new Time::Piece::Plus or Time::Seconds object using specified argument.
+If you specify Int, Time::Seconds or Time::Piece(::Plus)?, behavior is same as
+original Time::Piece. Operator overload is also available.
+
+If you specify Hash(not HashRef), behavior is similar to L<DateTime>'s these methods.
+But, they don't change object itself and returns new object.
+Available Hash keys are as follows, and Hash values are Int.
+
+=over
+
+=item seconds
+
+=item hours
+
+=item days
+
+=item months
+
+=item years
+
+=back
+
 =head1 AUTHOR
 
 Nishibayashi Takuji E<lt>takuji {at} senchan.jpE<gt>
 
 =head1 SEE ALSO
 
-L<Time::Piece>,L<Time::Piece::MySQL>
+L<Time::Piece>,L<Time::Piece::MySQL>,L<DateTime>
 
 =head1 LICENSE
 
