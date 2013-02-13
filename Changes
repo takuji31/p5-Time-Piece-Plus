@@ -1,5 +1,8 @@
 Revision history for Perl extension Time::Piece::Plus
 
+0.03    Wed Feb 13 06:05:00 2013
+        - override add/subtract method for providing interface like DateTime
+
 0.02    Fri Dec 10 01:17:50 2011
         - Add today method
         - yesterday and tommorow method more faster
