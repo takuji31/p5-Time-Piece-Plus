@@ -25,7 +25,7 @@ subtest "fix strptime from instance method" => sub {
 
 subtest "fix strptime from class method" => sub {
     my $now = localtime();
-    my $format = '%Y%m%d%H%M%S';
+    my $format = '%Y%m%d%H%M%S %z';
     my $str    = $now->strftime($format);
     my $parsed = localtime(Time::Piece::Plus->strptime($str, $format));
     is($now => $parsed , 'Parse successful');

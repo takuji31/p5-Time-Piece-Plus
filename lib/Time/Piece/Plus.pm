@@ -43,17 +43,17 @@ sub create_object {
     my $self = shift;
     my $is_local = shift;
 
-    my @origin = $is_local ? Time::Piece::localtime(@_) : Time::Piece::gmtime(@_);
-    #If array context, returns time array.
-    return @origin if wantarray;
+    if (wantarray) {
+        return $is_local ? Time::Piece::localtime(@_) : Time::Piece::gmtime(@_);
+    }
+    my $tp =  $is_local ? Time::Piece::localtime(@_) : Time::Piece::gmtime(@_);
+    my @origin = @$tp;
 
-    my $is_instance = ref $self ? 1 : 0;
-    my $class       = $is_instance ? ref $self : $self;
     #If instance is broken force fix
     if(need_patch() && (@origin > 11)) {
         @origin = (@origin[0..9], $origin[-1]);
     }
-    bless \@origin, $class;
+    bless \@origin, ref $self || $self;
 }
 
 sub get_object {
