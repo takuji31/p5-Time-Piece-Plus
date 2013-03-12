@@ -46,13 +46,20 @@ sub create_object {
     if (wantarray) {
         return $is_local ? Time::Piece::localtime(@_) : Time::Piece::gmtime(@_);
     }
-    my $tp =  $is_local ? Time::Piece::localtime(@_) : Time::Piece::gmtime(@_);
-    my @origin = @$tp;
 
+    my @origin;
     #If instance is broken force fix
-    if(need_patch() && (@origin > 11)) {
-        @origin = (@origin[0..9], $origin[-1]);
+    if (need_patch()) {
+        @origin =  $is_local ? Time::Piece::localtime(@_) : Time::Piece::gmtime(@_);
+        if (@origin > 11) {
+            @origin = (@origin[0..9], $origin[-1]);
+        }
     }
+    else {
+        my $tp =  $is_local ? Time::Piece::localtime(@_) : Time::Piece::gmtime(@_);
+        @origin = @$tp;
+    }
+
     bless \@origin, ref $self || $self;
 }
 
