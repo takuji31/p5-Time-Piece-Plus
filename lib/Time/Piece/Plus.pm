@@ -1,24 +1,22 @@
 package Time::Piece::Plus;
 use strict;
 use warnings;
-use 5.010;
+use 5.010_001;
 
 our $VERSION = '0.04';
 
-BEGIN {
-    require Time::Piece;
-    require version;
-    unshift @Time::Piece::Plus::ISA, 'Time::Piece';
-    # Object creation bug fix patch for Time::Piece < 1.16
-    my $NEED_PATCH = version::qv($Time::Piece::VERSION) < version::qv("1.16") ? 1 : 0;
-    sub need_patch() {$NEED_PATCH} ## no critic
-}
+use parent qw/Time::Piece/;
+
+use Scalar::Util ();
 
 sub import {
     my $class  = shift;
     my $caller = caller;
     for my $method (qw(localtime gmtime)) {
-        my $code = sub {$class->$method(@_)};
+        my $code = sub {
+            my $invocant = $_[0] && Scalar::Util::blessed($_[0]) ? shift : $class;
+            $class->$method(@_)
+        };
         {
             no strict 'refs';
             *{"$caller\::$method"} = $code; ## no critic
@@ -28,40 +26,6 @@ sub import {
 
 use Time::Seconds;
 use Data::Validator;
-
-sub localtime {
-    my $self = shift;
-    return $self->create_object(1, @_);
-}
-
-sub gmtime {
-    my $self = shift;
-    return $self->create_object(0, @_);
-}
-
-sub create_object {
-    my $self = shift;
-    my $is_local = shift;
-
-    if (wantarray) {
-        return $is_local ? Time::Piece::localtime(@_) : Time::Piece::gmtime(@_);
-    }
-
-    my @origin;
-    #If instance is broken force fix
-    if (need_patch()) {
-        @origin =  $is_local ? Time::Piece::localtime(@_) : Time::Piece::gmtime(@_);
-        if (@origin > 11) {
-            @origin = (@origin[0..9], $origin[-1]);
-        }
-    }
-    else {
-        my $tp =  $is_local ? Time::Piece::localtime(@_) : Time::Piece::gmtime(@_);
-        @origin = @$tp;
-    }
-
-    bless \@origin, ref $self || $self;
-}
 
 sub get_object {
     my $invocant = shift;
