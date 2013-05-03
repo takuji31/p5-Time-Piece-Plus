@@ -1,9 +1,7 @@
 use strict;
-use Test::LoadAllModules;
+use Test::More;
 
 BEGIN {
-    all_uses_ok(
-        search_path => "Time::Piece::Plus",
-        except => [],
-    );
+    use_ok 'Time::Piece::Plus';
+    done_testing;
 }
