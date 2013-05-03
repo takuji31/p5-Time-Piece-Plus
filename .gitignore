@@ -1,13 +1,9 @@
 cover_db
 MYMETA.*
 META.yml
-Makefile
-blib
-inc
-pm_to_blib
-MANIFEST
-Makefile.old
 nytprof.out
 MANIFEST.bak
 *.sw[po]
 extlib/
+_build
+Build
