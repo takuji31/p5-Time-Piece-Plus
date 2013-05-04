@@ -15,7 +15,7 @@ sub import {
     for my $method (qw(localtime gmtime)) {
         my $code = sub {
             my $invocant = $_[0] && Scalar::Util::blessed($_[0]) ? shift : $class;
-            $class->$method(@_)
+            $invocant->$method(@_)
         };
         {
             no strict 'refs';
