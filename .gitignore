@@ -1,6 +1,7 @@
 cover_db
 MYMETA.*
 META.yml
+META.json
 nytprof.out
 MANIFEST.bak
 *.sw[po]
@@ -8,3 +9,5 @@ extlib/
 _build
 Build
 blib/
+LICENSE
+Makefile.PL
