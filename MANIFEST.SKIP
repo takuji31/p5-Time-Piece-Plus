@@ -18,9 +18,11 @@
 ^[^/]+\.pl$
 ^\.shipit$
 ^\.git/
+^\.gitignore
 \.sw[po]$
 README\.pod
 ^MYMETA\.
 ^extlib/
 _build/
+^Build$
 ^\.travis.yml
