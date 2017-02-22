@@ -184,6 +184,30 @@ sub subtract {
     $self;
 }
 
+sub yyyymmdd {
+    my ($self, $delimiter) = @_;
+    return $self->_format_ymd("%Y", "%m", "%d", $delimiter)
+}
+
+sub mmddyyyy {
+    my ($self, $delimiter) = @_;
+    return $self->_format_ymd("%m", "%d", "%Y", $delimiter)
+}
+
+sub ddmmyyyy {
+    my ($self, $delimiter) = @_;
+    return $self->_format_ymd("%d", "%m", "%Y", $delimiter)
+}
+
+sub _format_ymd {
+    my ($self, $first, $second, $third, $delimiter) = @_;
+
+    if (!defined $delimiter) {
+        $delimiter = '';
+    }
+    return $self->strftime("${first}${delimiter}${second}${delimiter}${third}");
+}
+
 sub _calc_seconds {
     my $self = shift;
 
@@ -247,6 +271,14 @@ Time::Piece::Plus - Subclass of Time::Piece with some useful method
   my $local_datetime = Time::Piece::Plus->parse_mysql_datetime(str => "2011-11-26 23:28:50", as_localtime => 1);
   #default is localtime
   my $datetime       = Time::Piece::Plus->parse_mysql_datetime(str => "2011-11-26 23:28:50");
+
+  #returns formatted year, month and day
+  $now->yyyymmdd();    # YYYYmmdd
+  $now->yyyymmdd('/'); # YYYY/mm/dd
+  $now->mmddyyyy();    # mmddYYYY
+  $now->mmddyyyy('/'); # mm/dd/YYYY
+  $now->ddmmyyyy();    # ddmmYYYY
+  $now->ddmmyyyy('/'); # dd/mm/YYYY
 
   #calculete
   my $date = localtime();
@@ -325,6 +357,21 @@ original Time::Piece. Operator overload is also available.
 If you specify Hash(not HashRef), behavior is similar to L<DateTime>'s these methods.
 But, they don't change object itself and returns new object.
 Available Hash keys are as follows, and Hash values are Int.
+
+=head2 yyyymmdd($delimiter = Str|Undef)
+
+Format date string like "YYYYmmdd".
+If C<$delimiter> is specified, the delimiter is inserted between each part.
+
+=head2 mmddyyyy($delimiter = Str|Undef)
+
+Format date string like "mmddYYYY".
+If C<$delimiter> is specified, the delimiter is inserted between each part.
+
+=head2 ddmmyyyy($delimiter = Str|Undef)
+
+Format date string like "ddmmyyyy".
+If C<$delimiter> is specified, the delimiter is inserted between each part.
 
 =over
 
