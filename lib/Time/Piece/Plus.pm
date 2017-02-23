@@ -186,17 +186,17 @@ sub subtract {
 
 sub yyyymmdd {
     my ($self, $delimiter) = @_;
-    return $self->_format_ymd("%Y", "%m", "%d", $delimiter)
+    return $self->_format_ymd($self->year, sprintf('%02d', $self->mon), sprintf('%02d', $self->mday), $delimiter)
 }
 
 sub mmddyyyy {
     my ($self, $delimiter) = @_;
-    return $self->_format_ymd("%m", "%d", "%Y", $delimiter)
+    return $self->_format_ymd(sprintf('%02d', $self->mon), sprintf('%02d', $self->mday), $self->year, $delimiter)
 }
 
 sub ddmmyyyy {
     my ($self, $delimiter) = @_;
-    return $self->_format_ymd("%d", "%m", "%Y", $delimiter)
+    return $self->_format_ymd(sprintf('%02d', $self->mday), sprintf('%02d', $self->mon), $self->year, $delimiter)
 }
 
 sub _format_ymd {
@@ -205,7 +205,7 @@ sub _format_ymd {
     if (!defined $delimiter) {
         $delimiter = '';
     }
-    return $self->strftime("${first}${delimiter}${second}${delimiter}${third}");
+    return "${first}${delimiter}${second}${delimiter}${third}";
 }
 
 sub _calc_seconds {
