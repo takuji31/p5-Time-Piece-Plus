@@ -370,7 +370,7 @@ If C<$delimiter> is specified, the delimiter is inserted between each part.
 
 =head2 ddmmyyyy($delimiter = Str|Undef)
 
-Format date string like "ddmmyyyy".
+Format date string like "ddmmYYYY".
 If C<$delimiter> is specified, the delimiter is inserted between each part.
 
 =over
